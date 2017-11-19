@@ -12,6 +12,9 @@ body {
 #app-contents {
   margin: 8px;
 }
+a {
+  color: #1779ba;
+}
 nav {
   margin-bottom: 20px;
   font-size: 0.8em;
@@ -77,10 +80,14 @@ hr {
   /*width: 100%;*/
   /*float: right;*/
 }
+label.noup {
+  text-transform: none !important;
+}
 .form-group label {
   display: block;
   font-size: 0.75em;
   margin-bottom: 3px;
+  text-transform: uppercase;
 }
 .form-group input,
 .form-group textarea,
@@ -103,7 +110,8 @@ hr {
 .view {
   position: relative;
 }
-[data-view='add-service'] .loading {
+
+.loading {
   position: fixed;
   top: 0px;
   left: 0px;

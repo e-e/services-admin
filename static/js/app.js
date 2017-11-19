@@ -1,4 +1,5 @@
 (function() {
+  function noop() {}
   function paramString(data) {
     const e = encodeURIComponent;
     return Object.keys.reduce((str, key) => {
@@ -44,7 +45,7 @@
         { label: 'service list', view: 'table' },
         { label: '+new', view: 'add-service' }
       ],
-      view: '',
+      view: 'add-service',
       services: [],
       static: {
         days: [
@@ -149,13 +150,14 @@
       }
     },
     methods: {
-      getServices() {
+      getServices(callback = noop) {
         let vm = this;
         GET('/services').then(response => {
           vm.services = JSON.parse(response.responseText);
+          callback();
         });
       },
-      saveNewService() {
+      saveNewService(callback = noop) {
         let vm = this;
         vm.loading = true;
         POST('/services', vm.form).then(response => {
@@ -171,6 +173,9 @@
           vm.form.bestTimeToCall = '';
           vm.form.hours = [];
           vm.loading = false;
+          vm.getServices(function() {
+            vm.setView('table');
+          });
         });
       },
       setView(view) {
@@ -221,6 +226,12 @@
       },
       hoursEndInput(event, index) {
         this.form.hours[index].end = event.target.value;
+      },
+      hoursRemove(index) {
+        console.log(this.form.hours);
+        console.log(index, this.form.hours[index]);
+        this.form.hours.splice(index, 1);
+        console.log(this.form.hours);
       }
     },
     computed: {

@@ -10,8 +10,8 @@
 
     <div id="app">
       <nav>
-        <div>amy's seattle services (a.s.s.)</div>
-        <div class="contents-right">
+        <div @click="setView('table')">amy's seattle services (a.s.s.)</div>
+        <div class="contents-right" v-cloak>
           <ul>
             <li v-for="link in nav"
               :class="{ active: view === link.view }"
@@ -21,8 +21,11 @@
           </ul>
         </div>
       </nav>
-      <div id="app-contents">
-        <div v-if="view === 'table'">
+      <div class="loading" v-if="loading">
+        <img src="/static/image/loading.gif" alt="">
+      </div>
+      <div id="app-contents" v-cloak>
+        <div class="view" data-view="table" v-if="view === 'table'">
           <table>
             <thead>
               <tr>
@@ -42,9 +45,9 @@
         </div>
 
         <div class="view" data-view="add-service" v-if="view === 'add-service'">
-          <div class="loading" v-if="loading">
+          <!-- <div class="loading" v-if="loading">
             <img src="/static/image/loading.gif" alt="">
-          </div>
+          </div> -->
           <form>
             <div class="form-group">
               <label for="service-name">Service Name</label>
@@ -108,7 +111,7 @@
                   <div class="column" v-for="serviceGroup in static.serviceTypes">
                     <div v-for="service in serviceGroup">
                       <input :id="service.value" type="checkbox" v-model="form.services" :value="service.value" />
-                      <label :for="service.value">{{ service.label }}</label>
+                      <label class="noup" :for="service.value">{{ service.label }}</label>
                     </div>
                   </div>
                 </div>
@@ -123,7 +126,7 @@
                   <div class="column" v-for="availToGroup in static.availableTo">
                     <div v-for="type in availToGroup">
                       <input :id="type.value" type="checkbox" v-model="form.availableTo" :value="type.value" />
-                      <label :for="type.value">{{ type.label }}</label>
+                      <label class="noup" :for="type.value">{{ type.label }}</label>
                     </div>
                   </div>
                 </div>
@@ -143,12 +146,15 @@
 
 
                     <div class="start">
-                      <label :for="`hours-start-${index}`">Open</label>
-                      <input :id="`hours-start-${index}`" type="text" @input="hoursStartInput($event, index - 1)" :value="form.hours[index - 1].start">
+                      <label :for="`hours-start-${index + form.hours[index - 1].day}`">Open</label>
+                      <input :id="`hours-start-${index + form.hours[index - 1].day}`" type="text" @input="hoursStartInput($event, index - 1)" :value="form.hours[index - 1].start">
                     </div>
                     <div class="end">
                       <label :for="`hours-end-${index}`">Close</label>
                       <input :id="`hours-end-${index}`" type="text" @input="hoursEndInput($event, index - 1)" :value="form.hours[index - 1].end">
+                    </div>
+                    <div class="remove">
+                      <a href="#" @click.prevent="hoursRemove(index - 1)">&#215;</a>
                     </div>
                   </div>
                 </div>
