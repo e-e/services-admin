@@ -270,7 +270,7 @@
       setView(view) {
         this.loading = false;
         this.view = view;
-        if (view === 'table') {
+        if (view === 'table' || view === 'add-service') {
           this.form.name = '';
           this.form.email = '';
           this.form.phone = '';
