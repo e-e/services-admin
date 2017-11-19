@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const db = require('./db');
 const auth = require('./lib/auth');
-const ServiceController = require('./service/ServiceController');
+const ServiceController = require('./models/service/ServiceController');
 
 app.set('view engine', 'pug');
 app.use('/static', express.static('./static'));

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-const auth = require('../lib/auth');
+const auth = require('../../lib/auth');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
