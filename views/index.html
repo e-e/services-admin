@@ -13,7 +13,7 @@
         <div @click="setView('table')">amy's seattle services (a.s.s.)</div>
         <div class="contents-right" v-cloak>
           <ul>
-            <li v-for="link in nav"
+            <li class="noselect" v-for="link in nav"
               :class="{ active: view === link.view }"
               @click="setView(link.view)">
               {{ link.label }}
