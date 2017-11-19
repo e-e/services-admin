@@ -1,6 +1,5 @@
-var app = require('./app');
-var port = process.env.PORT || 3000;
-
-var server = app.listen(port, function() {
-  console.log('Express server listening on port ' + port);
+const app = require('./app');
+const config = require('./config');
+const server = app.listen(config.port, function() {
+  console.log('Express server listening on port ' + config.port);
 });

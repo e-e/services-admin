@@ -1,0 +1,14 @@
+html
+  head
+    title Amy's Seattle Services
+    
+  body
+    div(id="app")
+      div(v-for="test in tests")
+        div {{test.name}}
+    
+    if env === 'production'
+      script(src="/static/js/vue.min.js")
+    else
+      script(src="/static/js/vue.js")
+    script(src="/static/js/app.js")
