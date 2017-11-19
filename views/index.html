@@ -45,9 +45,6 @@
         </div>
 
         <div class="view" data-view="add-service" v-if="view === 'add-service'">
-          <!-- <div class="loading" v-if="loading">
-            <img src="/static/image/loading.gif" alt="">
-          </div> -->
           <form>
             <div class="form-group">
               <label for="service-name">Service Name</label>
@@ -165,6 +162,130 @@
             <hr>
             <div class="form-group">
               <button type="button" @click="saveNewService">Save</button>
+            </div>
+          </form>
+        </div>
+
+
+        <div class="view" data-view="edit-service" v-if="view === 'edit-service'">
+          <form>
+            <div class="form-group">
+              <label for="service-name">Service Name</label>
+              <input id="service-name" type="text" v-model="form.name" />
+            </div>
+
+            <div class="form-group-group">
+              <h2>Contact</h2>
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input id="phone" type="text" v-model="form.phone" />
+              </div>
+              <div class="form-group">
+                <label for="best-time-to-call">Best time to call</label>
+                <input id="best-time-to-call" type="text" v-model="form.bestTimeToCall" />
+              </div>
+              <div class="form-group">
+                <label for="email">Email (optional)</label>
+                <input id="email" type="text" v-model="form.email" />
+              </div>
+            </div>
+
+            <div class="form-group-group">
+              <h2>Address</h2>
+              <div class="form-group">
+                <label for="address-1">Street 1</label>
+                <input id="address-1" type="text" v-model="form.address_1" />
+              </div>
+              <div class="form-group">
+                <label for="address-2">Street 2 (optional - apt. #, for example)</label>
+                <input id="address-2" type="text" v-model="form.address_2" />
+              </div>
+              <template v-if="false">
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input id="city" type="text" v-model="form.city" />
+                </div>
+                <div class="form-group">
+                  <label for="state">State</label>
+                  <select id="state" v-model="form.state">
+                    <option v-for="state in static.states" :value="state">{{ state }}</option>
+                  </select>
+                </div>
+              </template>
+              <div class="form-group">
+                <label for="postal-code">Postal code</label>
+                <input id="postal-code" type="text" v-model="form.postalCode" />
+              </div>
+            </div>
+
+            <div class="form-group-group">
+              <h2>Information</h2>
+              <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" v-model="form.description" rows="5"></textarea>
+              </div>
+
+              <div class="form-group inline">
+                <h3>Services offered:</h3>
+                <div class="columns">
+                  <div class="column" v-for="serviceGroup in static.serviceTypes">
+                    <div v-for="service in serviceGroup">
+                      <input :id="service.value" type="checkbox" v-model="form.services" :value="service.value" />
+                      <label class="noup" :for="service.value">{{ service.label }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group inline">
+                <h3>Available to:</h3>
+                <div v-for="type in static.availableTo">
+
+                </div>
+                <div class="columns">
+                  <div class="column" v-for="availToGroup in static.availableTo">
+                    <div v-for="type in availToGroup">
+                      <input :id="type.value" type="checkbox" v-model="form.availableTo" :value="type.value" />
+                      <label class="noup" :for="type.value">{{ type.label }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <h3 style="clear:both;">Hours:<a style="float:right;" href="#" type="button" @click.prevent="addHours">+add</a></h3>
+                <div v-for="index in form.hours.length">
+                  <div class="hours-row">
+                    <div class="day">
+                      <label :for="`hour-day-${index}`">Day</label>
+                      <select :id="`hour-day-${index}`" @change="hoursDaySelect($event, index - 1)">
+                        <option value="">---</option>
+                        <option v-for="day in static.days" :value="day.value">{{ day.label }}</option>
+                      </select>
+                    </div>
+
+
+                    <div class="start">
+                      <label :for="`hours-start-${index + form.hours[index - 1].day}`">Open</label>
+                      <input :id="`hours-start-${index + form.hours[index - 1].day}`" type="text" @input="hoursStartInput($event, index - 1)" :value="form.hours[index - 1].start">
+                    </div>
+                    <div class="end">
+                      <label :for="`hours-end-${index}`">Close</label>
+                      <input :id="`hours-end-${index}`" type="text" @input="hoursEndInput($event, index - 1)" :value="form.hours[index - 1].end">
+                    </div>
+                    <div class="remove">
+                      <a href="#" @click.prevent="hoursRemove(index - 1)">&#215;</a>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+            <hr>
+            <div class="form-group" style="clear:both;">
+              <button type="button" @click="updateService">Save</button>
+              <button style="float:right;" class="delete" type="button" @click="deleteService(activeService._id)">&#215;</button>
             </div>
           </form>
         </div>

@@ -18,6 +18,18 @@
       ajax.send();
     });
   }
+  function DELETE(url) {
+    return new Promise((resolve, reject) => {
+      let ajax = new XMLHttpRequest();
+      ajax.onreadystatechange = function() {
+        if (this.readyState === 4) {
+          resolve(this);
+        }
+      };
+      ajax.open('DELETE', url, true);
+      ajax.send();
+    });
+  }
 
   function POST(url, data = {}) {
     // data = paramString(data);
@@ -192,8 +204,18 @@
         }
         return service;
       },
+      deleteService(id) {
+        let vm = this;
+        this.loading = true;
+        DELETE(`/services/${id}`).then(response => {
+          vm.getServices(function() {
+            vm.setView('table');
+          });
+        });
+      },
       editService(id) {
         this.activeService = this.getServiceById(id);
+        this.form = this.activeService;
         this.view = 'edit-service';
       },
       addHours() {
@@ -232,7 +254,8 @@
         console.log(index, this.form.hours[index]);
         this.form.hours.splice(index, 1);
         console.log(this.form.hours);
-      }
+      },
+      updateService() {}
     },
     computed: {
       dayValues() {

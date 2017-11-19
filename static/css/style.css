@@ -15,6 +15,9 @@ body {
 a {
   color: #1779ba;
 }
+button {
+  cursor: pointer;
+}
 nav {
   margin-bottom: 20px;
   font-size: 0.8em;
@@ -79,6 +82,9 @@ hr {
   font-size: 1.5em;
   /*width: 100%;*/
   /*float: right;*/
+}
+button.delete {
+  background-color: #cc4b37;
 }
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
