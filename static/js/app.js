@@ -270,6 +270,19 @@
       setView(view) {
         this.loading = false;
         this.view = view;
+        if (view === 'table') {
+          this.form.name = '';
+          this.form.email = '';
+          this.form.phone = '';
+          this.form.address_1 = '';
+          this.form.address_2 = '';
+          this.form.postalCode = '';
+          this.form.description = '';
+          this.form.availableTo = [];
+          this.form.services = [];
+          this.form.bestTimeToCall = '';
+          this.form.hours = [];
+        }
       },
       getServiceById(id) {
         let service = {};
