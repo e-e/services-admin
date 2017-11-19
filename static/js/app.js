@@ -32,7 +32,6 @@
   }
 
   function POST(url, data = {}) {
-    // data = paramString(data);
     return new Promise((resolve, reject) => {
       let ajax = new XMLHttpRequest();
       ajax.onreadystatechange = function() {
@@ -45,6 +44,84 @@
       ajax.send(JSON.stringify(data));
     });
   }
+
+  function PUT(url, data = {}) {
+    // data = paramString(data);
+    return new Promise((resolve, reject) => {
+      let ajax = new XMLHttpRequest();
+      ajax.onreadystatechange = function() {
+        if (this.readyState === 4) {
+          resolve(this);
+        }
+      };
+      ajax.open('PUT', url, true);
+      ajax.setRequestHeader('Content-type', 'application/json');
+      ajax.send(JSON.stringify(data));
+    });
+  }
+
+  Vue.component('day-select', {
+    data() {
+      return {
+        msg: 'Selector',
+        selected: null,
+        open: false,
+        days: [
+          { label: 'Sunday', value: 'SUNDAY' },
+          { label: 'Monday', value: 'MONDAY' },
+          { label: 'Tuesday', value: 'Tuesday' },
+          { label: 'Wednesday', value: 'WEDNESDAY' },
+          { label: 'Thursday', value: 'THURSDAY' },
+          { label: 'Friday', value: 'FRIDAY' },
+          { label: 'Saturday', value: 'SATURDAY' }
+        ]
+      };
+    },
+    props: {
+      value: {
+        type: String,
+        default: '---'
+      }
+    },
+    template: `
+      <div class="day-select" @click="toggleList" :class="{ open: open }">
+        <div class="day-select-current">{{ currentValue.label }}</div>
+        <ul class="day-select-list">
+          <li v-for="day in days" :class="{ active: selected.value === day.value }" @click="selectDay(day)">
+            {{ day.label }}
+          </li>
+        </ul>
+      </div>
+    `,
+    methods: {
+      selectDay(day) {
+        this.selected = day;
+        this.$emit('ondayselected', day);
+      },
+      toggleList() {
+        this.open = !this.open;
+      }
+    },
+    computed: {
+      currentValue() {
+        if (this.selected) {
+          return this.selected;
+        } else if (this.value) {
+          for (let i = 0; i < this.days.length; i++) {
+            if (this.days[i].value === this.value) {
+              this.selected = this.days[i];
+              return this.selected;
+              break;
+            }
+          }
+        } else {
+          this.selected = { label: '---' };
+          return this.selected;
+        }
+      }
+    }
+  });
+
   const vm = new Vue({
     el: '#app',
     mounted() {
@@ -255,7 +332,16 @@
         this.form.hours.splice(index, 1);
         console.log(this.form.hours);
       },
-      updateService() {}
+      updateService() {
+        this.loading = true;
+        PUT(`/services/${this.form._id}`, this.form).then(response => {
+          this.setView('table');
+        });
+      },
+      daySelected(event, index) {
+        console.log('day selected event!: ', event);
+        this.form.hours[index].day = event.value;
+      }
     },
     computed: {
       dayValues() {

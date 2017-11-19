@@ -10,7 +10,7 @@
 
     <div id="app">
       <nav>
-        <div class="noselect" @click="setView('table')">amy's seattle services (a.s.s.)</div>
+        <div class="noselect title" @click="setView('table')">amy's seattle services (a.s.s.)</div>
         <div class="contents-right" v-cloak>
           <ul>
             <li class="noselect" v-for="link in nav"
@@ -25,6 +25,11 @@
         <img src="/static/image/loading.gif" alt="">
       </div>
       <div id="app-contents" v-cloak>
+
+
+        <!-- <day-select value="FRIDAY" ></day-select> -->
+
+
         <div class="view" data-view="table" v-if="view === 'table'">
           <table>
             <thead>
@@ -135,10 +140,7 @@
                   <div class="hours-row">
                     <div class="day">
                       <label :for="`hour-day-${index}`">Day</label>
-                      <select :id="`hour-day-${index}`" @change="hoursDaySelect($event, index - 1)">
-                        <option value="">---</option>
-                        <option v-for="day in static.days" :value="day.value">{{ day.label }}</option>
-                      </select>
+                      <day-select :value="form.hours[index - 1].day" @ondayselected="daySelected($event, index - 1)" />
                     </div>
 
 
@@ -258,10 +260,7 @@
                   <div class="hours-row">
                     <div class="day">
                       <label :for="`hour-day-${index}`">Day</label>
-                      <select :id="`hour-day-${index}`" @change="hoursDaySelect($event, index - 1)">
-                        <option value="">---</option>
-                        <option v-for="day in static.days" :value="day.value">{{ day.label }}</option>
-                      </select>
+                      <day-select :value="form.hours[index - 1].day" @ondayselected="daySelected($event, index - 1)" />
                     </div>
 
 

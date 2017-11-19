@@ -18,6 +18,9 @@ a {
 button {
   cursor: pointer;
 }
+.title {
+  text-transform: uppercase;
+}
 nav {
   margin-bottom: 20px;
   font-size: 0.8em;
@@ -179,6 +182,36 @@ table td:last-child {
 .hours-row .end {
   margin: auto 5px;
   flex: 1;
+}
+
+.day-select {
+  cursor: pointer;
+}
+.day-select-current {
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+}
+.open .day-select-current {
+  border-bottom: 1px solid rgba(100, 100, 100, 0.5);
+}
+.day-select .day-select-list {
+  display: none;
+}
+.day-select.open .day-select-list {
+  display: block;
+}
+.day-select .day-select-list {
+  margin: 0;
+  padding: 0;
+}
+.day-select .day-select-list li {
+  list-style-type: none;
+}
+.day-select .day-select-list li.active {
+  color: #444;
+}
+.day-select .day-select-list li:hover {
+  background-color: rgba(150, 150, 150, 0.3);
 }
 
 @media (min-width: 900px) {
